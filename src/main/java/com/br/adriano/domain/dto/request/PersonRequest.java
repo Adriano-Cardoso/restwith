@@ -8,10 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -31,5 +29,8 @@ public class PersonRequest {
 	
 	@NotBlank(groups={OnCreate.class},message = "O campo 'gender' deve ser informado")
 	private String gender;
+	
+	@NotBlank(groups={OnCreate.class},message = "O campo 'book' deve ser informado")
+	private BookRequest book;
 
 }

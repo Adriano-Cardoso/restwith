@@ -28,7 +28,7 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfo("Rest API With Spring Boot", "Descrição", "v1", "Terms Of Service Url",
+		return new ApiInfo("Rest API With Spring Boot", "Descricao", "v1", "Terms Of Service Url",
 				new Contact("Adriano Cardoso", "www.adriano.com.br", "seu email@gmail.com"), "Liscense of API",
 				"License of URL", Collections.emptyList());
 	}

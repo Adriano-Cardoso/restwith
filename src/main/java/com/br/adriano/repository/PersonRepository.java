@@ -13,11 +13,10 @@ import com.br.adriano.domain.dto.response.PersonResponse;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-	
-	
-	@Query("select new com.br.adriano.domain.dto.response.PersonResponse(p.id, p.firstName, p.lastName, p.cpf, p.address, p.gender) FROM Person p WHERE p.cpf=:cpf")
+
+	@Query("select new com.br.adriano.domain.dto.response.PersonResponse(p.id, p.firstName, p.lastName, p.cpf, p.address, p.gender, p.books.id, p.books.author, p.books.launchDate, p.books.price, p.books.title) FROM Person p WHERE p.cpf=:cpf")
 	Optional<PersonResponse> findByCpf(@Param("cpf") String cpf);
 
-	@Query("select new com.br.adriano.domain.dto.response.PersonResponse(p.id, p.firstName, p.lastName, p.cpf, p.address, p.gender) FROM Person p")
+	@Query("select new com.br.adriano.domain.dto.response.PersonResponse(p.id, p.firstName, p.lastName, p.cpf, p.address, p.gender,  p.books.id, p.books.author, p.books.launchDate, p.books.price, p.books.title) FROM Person p")
 	List<PersonResponse> listAllPerson();
 }

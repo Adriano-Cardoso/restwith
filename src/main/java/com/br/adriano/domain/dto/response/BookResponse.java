@@ -1,7 +1,7 @@
 package com.br.adriano.domain.dto.response;
 
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +18,7 @@ public class BookResponse {
 
 	private String author;
 
-	private Date launchDate;
+	private LocalDate launchDate;
 
 	private double price;
 

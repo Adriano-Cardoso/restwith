@@ -1,16 +1,12 @@
 package com.br.adriano.domain.dto.response;
 
-import lombok.AllArgsConstructor;
+import java.time.LocalDate;
+
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+
 public class PersonResponse {
 
 	private Long id;
@@ -19,6 +15,20 @@ public class PersonResponse {
 	private String cpf;
 	private String address;
 	private String gender;
-	
-	
+	private BookResponse book;
+
+	@Builder
+	public PersonResponse(Long id, String firstName, String lastName, String cpf, String address, String gender,
+			Long booksId, String author, LocalDate launchDate, double price, String title) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.cpf = cpf;
+		this.address = address;
+		this.gender = gender;
+		this.book = new BookResponse(booksId, author, launchDate, price, title);
+	}
+
+
 }

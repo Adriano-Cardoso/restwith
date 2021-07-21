@@ -3,6 +3,7 @@ package com.br.adriano.service;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -34,8 +35,8 @@ public class PersonService {
 	
 	
 	@Validated(OnCreate.class)
-	public PersonResponse createNewPerson(PersonRequest request) {
-		this.repository.findByCpf(request.getCpf()).ifPresent(p -> {throw new PersonCpfResourceExistingException("O cpf já existe");});
+	public PersonResponse createNewPerson(@Valid PersonRequest request) {
+		this.repository.findByCpf(request.getCpf()).ifPresent(p -> {throw new PersonCpfResourceExistingException("O cpf ja existe "+ request.getCpf());});
 		
 		Person person = Person.of(request);
 		
@@ -48,7 +49,7 @@ public class PersonService {
 	@Transactional
 	@Validated(OnUpdate.class)
 	public PersonResponse updateNamePerson(Long id, PersonUpdateRequest request) {
-		Person person = this.repository.findById(id).orElseThrow(() -> new IdNotFoundException("O id informado não existe " + id));
+		Person person = this.repository.findById(id).orElseThrow(() -> new IdNotFoundException("O id informado nao existe " + id));
 		
 		person.updatePerson(request);
 		
@@ -65,7 +66,7 @@ public class PersonService {
 	
 	
 	public void deleteByIdPerson(Long id) {
-		Person person = this.repository.findById(id).orElseThrow(() -> new IdNotFoundException("O id informado não existe " + id));
+		Person person = this.repository.findById(id).orElseThrow(() -> new IdNotFoundException("O id informado nao existe " + id));
 		log.info("method=findByCpf findByCpf={}", id);
 		this.repository.delete(person);
 		
@@ -73,7 +74,7 @@ public class PersonService {
 
 	public PersonResponse findByCpf(String cpf) {
 		log.info("method=findByCpf findByCpf={}", cpf);
-		return this.repository.findByCpf(cpf).orElseThrow(() -> new PersonCpfResourceNotFoundException("O cpf informado não existe "+ cpf));
+		return this.repository.findByCpf(cpf).orElseThrow(() -> new PersonCpfResourceNotFoundException("O cpf informado nao existe "+ cpf));
 		
 	}
 	

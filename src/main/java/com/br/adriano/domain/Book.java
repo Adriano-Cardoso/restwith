@@ -1,6 +1,6 @@
 package com.br.adriano.domain;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,7 +36,7 @@ public class Book {
 	
 	@Column(name = "launch_date", nullable = false)
 	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date launchDate;
+	private LocalDate launchDate;
 	
 	@Column(nullable = false)
 	private double price;
