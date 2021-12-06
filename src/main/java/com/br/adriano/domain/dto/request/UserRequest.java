@@ -1,37 +1,29 @@
 package com.br.adriano.domain.dto.request;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
-import com.br.adriano.validation.OnCreate;
-
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data	
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
+@Getter
 public class UserRequest {
-	
-	@NotBlank(groups={OnCreate.class},message = "O campo 'userName' deve ser informado")
-	private String userName;
-    
-	@NotBlank(groups={OnCreate.class},message = "O campo 'fullName' deve ser informado")
-	private String fullName;
 
-	@NotBlank(groups={OnCreate.class},message = "O campo 'password' deve ser informado")
+	@NotNull(message = "O campo 'email' no corpo da requisicao")
+	@Email(message = "Formato do email esta errado")
+	@ApiModelProperty(position = 1, required = false, value = "email do usuario", name = "email", dataType = "String", example = "teste@email.com")
+	private String email;
+
+	@ApiModelProperty(position = 2, required = false, value = "username do usuario", name = "username", dataType = "String", example = "Teste")
+	@NotNull(message = "O campo 'username' no corpo da requisicao")
+	private String username;
+
+	@ApiModelProperty(position = 3, required = false, value = "password do usuario", name = "password", dataType = "String", example = "123")
+	@NotNull(message = "O campo 'password' no corpo da requisicao")
 	private String password;
-
-//	@NotBlank(groups={OnCreate.class},message = "O campo 'accountNonExpired' deve ser informado")
-//	private boolean accountNonExpired;
-//
-//	@NotBlank(groups={OnCreate.class},message = "O campo 'accountNonLocked' deve ser informado")
-//	private boolean accountNonLocked;
-//
-//	@NotBlank(groups={OnCreate.class},message = "O campo 'credentialsNonExpired' deve ser informado")
-//	private boolean credentialsNonExpired;
-//
-//	@NotBlank(groups={OnCreate.class},message = "O campo 'enabled' deve ser informado")
-//	private boolean enabled;
 
 }

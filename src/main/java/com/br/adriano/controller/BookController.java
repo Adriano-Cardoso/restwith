@@ -1,7 +1,9 @@
 package com.br.adriano.controller;
 
-import java.util.List;
+import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,40 +24,40 @@ import lombok.AllArgsConstructor;
 
 @Api(value = "Book Endpoint", description = "Description for book", tags = { "Book Endpoint" })
 @RestController
-@RequestMapping("api/v1/book/")
+@RequestMapping("api/v1/book")
 @AllArgsConstructor
 public class BookController {
 
 	private BookService service;
 
 	@ApiOperation(value = "find all Book")
-	@GetMapping
-	public ResponseEntity<List<BookResponse>> listAllBook() {
-		return ResponseEntity.ok(this.service.listAllBook());
+	@GetMapping()
+	public ResponseEntity<Page<BookResponse>> listAllBook() {
+		return ResponseEntity.status(HttpStatus.OK).body(this.service.listAllBook());
 	}
 
 	@ApiOperation(value = "list person by author")
 	@GetMapping("/author/{author}")
 	public ResponseEntity<BookResponse> listAuthorBook(@PathVariable("author") String author) {
-		return ResponseEntity.ok(this.service.findByCpf(author));
+		return ResponseEntity.status(HttpStatus.OK).body(this.service.findByAuthor(author));
 	}
 
 	@ApiOperation(value = "create new book")
 	@PostMapping
-	public ResponseEntity<BookResponse> createNewBook(@RequestBody BookRequest request) {
-		return ResponseEntity.ok(this.service.createNewBook(request));
+	public ResponseEntity<BookResponse> createNewBook(@Valid @RequestBody BookRequest request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(this.service.createNewBook(request));
 	}
 
 	@ApiOperation(value = "update name book")
-	@PatchMapping("/{id}")
-	public ResponseEntity<BookResponse> updateNameBook(@PathVariable Long id, @RequestBody BookRequest request) {
-		return ResponseEntity.ok(this.service.updateNameBook(id, request));
+	@PatchMapping("/{bookId}")
+	public ResponseEntity<BookResponse> updateNameBook(@PathVariable Long bookId, @RequestBody BookRequest bookRequest) {
+		return ResponseEntity.status(HttpStatus.OK).body(this.service.updateNameBook(bookId, bookRequest));
 	}
 
-	@ApiOperation(value = "delete book by id")
-	@DeleteMapping("/{id}")
-	public ResponseEntity<BookResponse> deleteByIdPerson(@PathVariable Long id) {
-		this.service.deleteByIdBook(id);
-		return ResponseEntity.ok().build();
+	@ApiOperation(value = "delete book by bookId")
+	@DeleteMapping("/{bookId}")
+	public ResponseEntity<BookResponse> deleteByIdPerson(@PathVariable Long bookId) {
+		this.service.deleteByIdBook(bookId);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

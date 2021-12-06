@@ -21,19 +21,21 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @Entity
-@Table(name = "PERSON")
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "tb_person")
 public class Person {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long personId;
 
 	@Column(name = "first_name", nullable = false, length = 80)
 	private String firstName;
@@ -50,23 +52,22 @@ public class Person {
 	@Column(name = "gender", nullable = false, length = 1)
 	private String gender;
 
+	@Column(name = "book_id", nullable = true, insertable = false, updatable = false)
+	private Long bookId;
+
 	@ManyToOne
 	@Cascade(CascadeType.PERSIST)
-	@JoinColumn(name = "books_id", insertable = true)
-	private Book books;
+	@JoinColumn(name = "book_id", insertable = true)
+	private Book book;
 
 	public PersonResponse toDto() {
-		return PersonResponse.builder().id(this.id).firstName(this.firstName).lastName(this.lastName).cpf(this.cpf)
-				.address(this.address).gender(this.gender).booksId(this.books.getId()).author(this.books.getAuthor())
-				.launchDate(this.books.getLaunchDate()).price(this.books.getPrice()).title(this.books.getTitle())
-				.build();
+		return PersonResponse.builder().personId(this.personId).firstName(this.firstName).lastName(this.lastName)
+				.cpf(this.cpf).address(this.address).gender(this.gender).bookId(this.book.getBookId()).build();
 	}
 
 	public static Person of(PersonRequest request) {
-		Book books = Book.builder().author(request.getBook().getAuthor()).launchDate(request.getBook().getLaunchDate())
-				.price(request.getBook().getPrice()).title(request.getBook().getTitle()).build();
 		return Person.builder().firstName(request.getFirstName()).lastName(request.getLastName()).cpf(request.getCpf())
-				.address(request.getAddress()).gender(request.getGender()).books(books).build();
+				.address(request.getAddress()).gender(request.getGender()).build();
 	}
 
 	public void updatePerson(PersonUpdateRequest request) {
@@ -74,6 +75,11 @@ public class Person {
 		this.firstName = request.getFirstName();
 		this.lastName = request.getLastName();
 
+	}
+
+	public void addBook(Book book) {
+		this.book = book;
+		this.bookId = book.getBookId();
 	}
 
 }
